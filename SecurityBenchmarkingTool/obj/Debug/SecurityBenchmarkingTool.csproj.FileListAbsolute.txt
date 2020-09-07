@@ -1,0 +1,10 @@
+D:\University\Sem V\CyberSecurity\SecurityBenchmarkingTool\SecurityBenchmarkingTool\bin\Debug\SecurityBenchmarkingTool.exe.config
+D:\University\Sem V\CyberSecurity\SecurityBenchmarkingTool\SecurityBenchmarkingTool\bin\Debug\SecurityBenchmarkingTool.exe
+D:\University\Sem V\CyberSecurity\SecurityBenchmarkingTool\SecurityBenchmarkingTool\bin\Debug\SecurityBenchmarkingTool.pdb
+D:\University\Sem V\CyberSecurity\SecurityBenchmarkingTool\SecurityBenchmarkingTool\obj\Debug\SecurityBenchmarkingTool.csprojAssemblyReference.cache
+D:\University\Sem V\CyberSecurity\SecurityBenchmarkingTool\SecurityBenchmarkingTool\obj\Debug\SecurityBenchmarkingTool.SBT.resources
+D:\University\Sem V\CyberSecurity\SecurityBenchmarkingTool\SecurityBenchmarkingTool\obj\Debug\SecurityBenchmarkingTool.Properties.Resources.resources
+D:\University\Sem V\CyberSecurity\SecurityBenchmarkingTool\SecurityBenchmarkingTool\obj\Debug\SecurityBenchmarkingTool.csproj.GenerateResource.cache
+D:\University\Sem V\CyberSecurity\SecurityBenchmarkingTool\SecurityBenchmarkingTool\obj\Debug\SecurityBenchmarkingTool.csproj.CoreCompileInputs.cache
+D:\University\Sem V\CyberSecurity\SecurityBenchmarkingTool\SecurityBenchmarkingTool\obj\Debug\SecurityBenchmarkingTool.exe
+D:\University\Sem V\CyberSecurity\SecurityBenchmarkingTool\SecurityBenchmarkingTool\obj\Debug\SecurityBenchmarkingTool.pdb
