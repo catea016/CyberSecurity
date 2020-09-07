@@ -2,7 +2,7 @@
 # Security Benchmarking Tool - local desktop application
 A local desktop application serving as a Security Tool for Benchmarking audit policies, created with C#, .NET and SQL Server.
 
-##Table of Contents
+## Table of Contents
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
