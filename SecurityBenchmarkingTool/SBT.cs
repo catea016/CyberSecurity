@@ -343,7 +343,7 @@ namespace SecurityBenchmarkingTool
             XmlNodeList xmlnode;
             int i = 0;
             string str = null;
-            FileStream fs = new FileStream(@"D:\University\Sem V\CyberSecurity\2.txt", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(@"D:\University\Sem V\CyberSecurity\XML.xml", FileMode.Open, FileAccess.Read);
             xmldoc.Load(fs);
             xmlnode = xmldoc.GetElementsByTagName("custom_item");
             for (i = 0; i <= xmlnode.Count - 1; i++)
@@ -402,7 +402,7 @@ namespace SecurityBenchmarkingTool
             {
                 conn.ConnectionString = "Data Source=WIN-AGBLDGI4OBP;Initial Catalog=SecurityBenchmarkingTool;Integrated Security=True";
                 conn.Open();
-                using (XmlTextReader reader = new XmlTextReader(@"D:\University\Sem V\CyberSecurity\2.txt"))
+                using (XmlTextReader reader = new XmlTextReader(@"D:\University\Sem V\CyberSecurity\XML.xml"))
                 {
                     while (reader.Read())
                     {
