@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
-
 using System.Xml;
 using System.Xml.Linq;
+
 
 namespace SecurityBenchmarkingTool
 {
@@ -22,13 +22,6 @@ namespace SecurityBenchmarkingTool
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
-
         OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
         private void button1_Click(object sender, EventArgs e)
@@ -37,7 +30,7 @@ namespace SecurityBenchmarkingTool
             this.openFileDialog1.Filter = "audit files (*.audit)|*.audit";
 
             DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
-            if (result == DialogResult.OK) // Test result.
+            if (result == DialogResult.OK) 
             {
                 string file = openFileDialog1.FileName;
                 try
@@ -49,11 +42,6 @@ namespace SecurityBenchmarkingTool
                 {
                 }
                 listBox1.Items.Add(file);
-               // Console.WriteLine(size); // <-- Shows file size in debugging mode.
-                //Console.WriteLine(result);
-                //Console.WriteLine(file);
-
-
             }
                        
         }
@@ -88,12 +76,7 @@ namespace SecurityBenchmarkingTool
                     {
                         MessageBox.Show("Error: could not read file from disk. Original error: " + ex.Message);
                     }
-                }
-                //foreach (String file in openFileDialog1.FileNames)
-                //{
-                  //MessageBox.Show(file);
-                //}
-                
+                }                
             }
         }
 
@@ -101,14 +84,14 @@ namespace SecurityBenchmarkingTool
         {
 
         }
+
+        private void label1_Click(object sender, EventArgs e) { }
         
         
         private void ParseButton_Click(object sender, EventArgs e)
         {
             string filePath = System.IO.Path.GetDirectoryName((string)listBox1.SelectedItem);
             string fileName = System.IO.Path.GetFileName((string)listBox1.SelectedItem);
-
-            //string[] lines;
             var list = new List<string>();
             var fileStream = new FileStream(filePath+"\\"+fileName, FileMode.Open, FileAccess.Read);
             using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
@@ -120,36 +103,27 @@ namespace SecurityBenchmarkingTool
                     list.Add(line);
                 }
             }
-            //lines = list.ToArray();
-           // Console.WriteLine(list[50]);
+           
             for(int m=0; m<list.Count; m++)
             {
-                /*if (list[m].StartsWith("<check_type"))
-                {
-                    list[m] = list[m].Replace("<check_type", "<check_type type");
-                    break;
-                }
-                if (list[m].StartsWith("<group_policy"))
-                {
-                    list[m] = list[m].Replace("<group_policy", "<group_policy group");
-                } */
+                
                 if (list[m].Contains("<blank>"))
                 {
                     list[m] = list[m].Replace("<blank>", "blank");
 
-                    //Console.WriteLine(list[m]);
                 }
                 if (list[m].Contains("<none>"))
                 {
                     list[m] = list[m].Replace("<none>", "none");
-
-                    //Console.WriteLine(list[m]);
                 }
-
+                if (list[m].Contains("'"))
+                {
+                    list[m] = list[m].Replace("'", "");
+                }
                 if (list[m].StartsWith("#"))
                 {
                     list[m] = list[m].Remove(0, list[m].Length);
-                    //Console.WriteLine(list[m]);
+                    
                 }
                 if (list[m].Contains("&"))
                 {
@@ -176,8 +150,9 @@ namespace SecurityBenchmarkingTool
                     list[m] = list[m].Replace("description", "<description>");
                     list[m] = list[m].Insert(list[m].Length, "</description>");
                     list[m] = list[m].Replace("=", "");
-                    list[m] = list[m].Replace( '"', ' ') ; 
-                    //Console.WriteLine(list[m]);
+                    list[m] = list[m].Replace( '"', ' ') ;
+                    list[m] = list[m].Replace("'", " ");
+                    Console.WriteLine(list[m]);
                 }
                 else if (list[m].Contains("value_type"))
                 {
@@ -357,10 +332,7 @@ namespace SecurityBenchmarkingTool
                 
 
             }
-            /*foreach(string line in list)
-            {
-                Console.WriteLine(line);
-            }*/
+            
             using (TextWriter tw = new StreamWriter(@"C:\Users\User\Desktop\XML.xml"))
             {
                 foreach (String line in list)
@@ -371,7 +343,7 @@ namespace SecurityBenchmarkingTool
             XmlNodeList xmlnode;
             int i = 0;
             string str = null;
-            FileStream fs = new FileStream(@"C:\Users\User\Desktop\XML.xml", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(@"D:\University\Sem V\CyberSecurity\2.txt", FileMode.Open, FileAccess.Read);
             xmldoc.Load(fs);
             xmlnode = xmldoc.GetElementsByTagName("custom_item");
             for (i = 0; i <= xmlnode.Count - 1; i++)
@@ -430,7 +402,7 @@ namespace SecurityBenchmarkingTool
             {
                 conn.ConnectionString = "Data Source=WIN-AGBLDGI4OBP;Initial Catalog=SecurityBenchmarkingTool;Integrated Security=True";
                 conn.Open();
-                using (XmlTextReader reader = new XmlTextReader(@"C:\Users\User\Desktop\XML.xml"))
+                using (XmlTextReader reader = new XmlTextReader(@"D:\University\Sem V\CyberSecurity\2.txt"))
                 {
                     while (reader.Read())
                     {
@@ -564,6 +536,246 @@ namespace SecurityBenchmarkingTool
                 }
             }
               MessageBox.Show("Data was transfered to database successfully");
+        }
+       
+
+        private void BindButton_Click(object sender, EventArgs e)
+        {
+            SqlConnection con = new SqlConnection("Data Source=WIN-AGBLDGI4OBP;Initial Catalog=SecurityBenchmarkingTool;Integrated Security=True");
+            con.Open();
+            SqlCommand cmd = new SqlCommand("select * from Custom_Item", con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+
+            for (int i = 4; i < dt.Rows.Count; i++)
+            {
+                PoliciesListView.Items.Add(dt.Rows[i]["description"].ToString());
+
+            }
+
+
+        }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            PoliciesListView.SelectedItems.Clear();
+            for(int i = PoliciesListView.Items.Count-1; i>=0; i--)
+            {
+                if (PoliciesListView.Items[i].ToString().ToLower().Contains(textBox1.Text.ToLower()))
+                {
+                    //PoliciesListView.SetSelected(i, true);
+                    this.PoliciesListView.Items[i].Selected = true;
+                    this.PoliciesListView.Items[i].Focused = true;
+                }
+            }
+
+            Label_Status.Text = PoliciesListView.SelectedItems.Count.ToString() + " items found"; 
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Label_Status_Click(object sender, EventArgs e)
+        {
+
+        }
+        
+        private void PoliciesListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+        bool isChecked = false;
+        private void SelectDeselectAll_CheckedChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < PoliciesListView.Items.Count; i++)
+            {
+                if (SelectDeselectAll.Checked)
+                    PoliciesListView.Items[i].Checked = true;
+                else
+                    PoliciesListView.Items[i].Checked = false;
+            }
+            isChecked = SelectDeselectAll.Checked;
+        }
+        private void SelectDeselectAll_Click(object sender, EventArgs e)
+        {
+            if (SelectDeselectAll.Checked && !isChecked)
+                SelectDeselectAll.Checked = false;
+            else
+            {
+                SelectDeselectAll.Checked = true;
+                isChecked = false;
+            }
+        }
+        
+        private void CreateNewAuditButton_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("1");
+            for (int i = 0; i < PoliciesListView.Items.Count; i++)
+            {
+                
+                if (PoliciesListView.Items[i].Checked == false)
+                {
+                    SqlConnection con = new SqlConnection(@"Data Source=WIN-AGBLDGI4OBP;Initial Catalog=SecurityBenchmarkingTool;Integrated Security=True;Connection Timeout=500");
+                    con.Open();
+                    SqlCommand comm = new SqlCommand("delete from Custom_Item Where Description= '" + PoliciesListView.Items[i].Text + "'", con);
+                    comm.ExecuteNonQuery();
+                    
+                }
+            }
+            MessageBox.Show("Checked options successfully stored");
+
+        }
+
+        private void SaveAudit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(@"Data Source=WIN-AGBLDGI4OBP;Initial Catalog=SecurityBenchmarkingTool;Integrated Security=True;Connection Timeout=500");
+                con.Open();
+                SqlCommand comm = new SqlCommand("SELECT Type, Description, Value_Type, Value_Data, Reg_Key, Reg_Item, Check_Type, Info, Solution, " +
+                    "Password_Policy, Right_Type, Account_Type, Reg_Option, Audit_Policy_Subcategory, Reg_Ignore_Hku_Users, Reference, See_Also," +
+                    "Lockout_Policy, Powershell_Args, Key_Item FROM Custom_Item WHERE Type <> ' '  " , con);
+                using (con)
+                {
+                    SqlDataAdapter sda = new SqlDataAdapter(comm);
+                    DataTable dt = new DataTable("Custom_Item");
+                    sda.Fill(dt);
+
+                    dt.WriteXml(@"C:\Users\User\Desktop\XML2.xml");
+                    con.Close();
+                    
+                }
+
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+            var list = new List<String>();
+            var fileStream = new FileStream(@"C:\Users\User\Desktop\XML2.xml", FileMode.Open, FileAccess.Read);
+            using(var streamReader = new StreamReader(fileStream, Encoding.UTF8))
+            {
+                string line;
+                while((line = streamReader.ReadLine()) != null)
+                {
+                    list.Add(line);
+                }
+            }
+
+            for(int m = 0; m < list.Count; m++)
+            {
+                
+                // Console.WriteLine(list[m]);
+                if (list[m].Contains("<DocumentElement>") | list[m].Contains("</DocumentElement>"))
+                {
+                    list[m] = list[m].Replace("<DocumentElement>", "");
+                    list[m] = list[m].Replace("</DocumentElement>", "");
+                    //Console.WriteLine(list[m]);
+                }
+                if (list[m].Contains(" />"))
+                {
+                    list[m] = list[m].Remove(0, list[m].Length);
+                    //Console.WriteLine(list[m]);
+                }
+                
+                if (list[m].Contains("<Type>") | list[m].Contains("</Type>") | list[m].Contains("<Description>") |list[m].Contains("</Description>")
+                    | list[m].Contains("<Value_Type>") | list[m].Contains("</Value_Type>") | list[m].Contains("<Value_Data>") | list[m].Contains("</Value_Data>")
+                    | list[m].Contains("<Reg_Key>") | list[m].Contains("</Reg_Key>") | list[m].Contains("<Reg_Item>") | list[m].Contains("</Reg_Item>")
+                    | list[m].Contains("<Check_Type>") | list[m].Contains("</Check_Type>") | list[m].Contains("<Info>") | list[m].Contains("</Info>")
+                    | list[m].Contains("<Solution>") | list[m].Contains("</Solution>") | list[m].Contains("</Password_Policy>") | list[m].Contains("</Password_Policy>")
+                    | list[m].Contains("<Right_Type>") | list[m].Contains("</Right_Type>") | list[m].Contains("<Account_Type>") | list[m].Contains("</Account_Type>")
+                    | list[m].Contains("<Reg_Option>") | list[m].Contains("</Reg_Option>") | list[m].Contains("<Audit_Policy_Subcategory>") | list[m].Contains("</Audit_Policy_Subcategory>")
+                    | list[m].Contains("<Reg_Ignore_Hku_Users>") | list[m].Contains("</Reg_Ignore_Hku_Users>") | list[m].Contains("<Reference>") | list[m].Contains("</Reference>")
+                    | list[m].Contains("<See_Also>") | list[m].Contains("</See_Also>") | list[m].Contains("<Lockout_Policy>") | list[m].Contains("</Lockout_Policy>")
+                    | list[m].Contains("<Powershell_Args>") | list[m].Contains("</Powershell_Args>") | list[m].Contains("<Key_Item>") | list[m].Contains("</Key_Item>"))
+                {
+                    list[m] = list[m].Replace("<Type>", "type :");
+                    list[m] = list[m].Replace("</Type>", "");
+
+                    list[m] = list[m].Replace("<Description>", "description :");
+                    list[m] = list[m].Replace("</Description>", "");
+
+                    list[m] = list[m].Replace("<Value_Type>", "value_type :");
+                    list[m] = list[m].Replace("</Value_Type>", "");
+
+                    list[m] = list[m].Replace("<Value_Data>", "value_data :");
+                    list[m] = list[m].Replace("</Value_Data>", "");
+
+                    list[m] = list[m].Replace("<Reg_Key>", "reg_key :");
+                    list[m] = list[m].Replace("</Reg_Key>", "");
+
+                    list[m] = list[m].Replace("<Reg_Item>", "reg_item :");
+                    list[m] = list[m].Replace("</Reg_Item>", "");
+
+                    list[m] = list[m].Replace("<Check_Type>", "check_type :");
+                    list[m] = list[m].Replace("</Check_Type>", "");
+
+                    list[m] = list[m].Replace("<Info>", "info :");
+                    list[m] = list[m].Replace("</Info>", "");
+
+                    list[m] = list[m].Replace("<Solution>", "solution :");
+                    list[m] = list[m].Replace("</Solution>", "");
+
+                    list[m] = list[m].Replace("<Password_Policy>", "password_policy :");
+                    list[m] = list[m].Replace("</Password_Policy>", "");
+
+                    list[m] = list[m].Replace("<Right_Type>", "right_type :");
+                    list[m] = list[m].Replace("</Right_Type>", "");
+
+                    list[m] = list[m].Replace("<Account_Type>", "account_type :");
+                    list[m] = list[m].Replace("</Account_Type>", "");
+
+
+                    list[m] = list[m].Replace("<Reg_Option>", "reg_option :");
+                    list[m] = list[m].Replace("</Reg_Option>", "");
+
+                    list[m] = list[m].Replace("<Audit_Policy_Subcategory>", "audit_policy_subcategory :");
+                    list[m] = list[m].Replace("</Audit_Policy_Subcategory>", "");
+
+                    list[m] = list[m].Replace("<Reg_Ignore_Hku_Users>", "reg_ignore_hku_users :");
+                    list[m] = list[m].Replace("</Reg_Ignore_Hku_Users>", "");
+
+                    list[m] = list[m].Replace("<Reference>", "reference :");
+                    list[m] = list[m].Replace("</Reference>", "");
+
+                    list[m] = list[m].Replace("<See_Also>", "see_also :");
+                    list[m] = list[m].Replace("</See_Also>", "");
+
+                    list[m] = list[m].Replace("<Lockout_Policy>", "lockout_policy :");
+                    list[m] = list[m].Replace("</Lockout_Policy>", "");
+
+                    list[m] = list[m].Replace("<Powershell_Args>", "powershell_args :");
+                    list[m] = list[m].Replace("</Powershell_Args>", "");
+
+                    list[m] = list[m].Replace("<Key_Item>", "key_item :");
+                    list[m] = list[m].Replace("</Key_Item>", "");
+
+                  //  Console.WriteLine(list[m]);
+                }
+
+                if (list[m].Contains("<?xml")) 
+                {
+                    list[m] = list[m].Remove(0, list[m].Length);
+                }
+
+            }
+            using (TextWriter tw = new StreamWriter(@"C:\Users\User\Desktop\New_Audit.audit")) 
+            {
+                tw.WriteLine("<check_type:Windows version:2>");
+                tw.WriteLine("<group_policy:CIS Microsoft Windows 10 Enterprise Release 1903 Benchmark>");
+
+                foreach (String line in list) 
+                {
+                    tw.WriteLine(line);
+                }
+                tw.WriteLine("</check_type>");
+                tw.WriteLine("</group_policy>");
+
+                MessageBox.Show("New audit file created successfuly");
+            }
         }
     }
 }
