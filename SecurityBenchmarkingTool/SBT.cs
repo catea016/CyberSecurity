@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
-
+using SecurityBenchmarkingTool;
 
 namespace SecurityBenchmarkingTool
 {
@@ -23,28 +23,6 @@ namespace SecurityBenchmarkingTool
         }
 
         OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int size = -1;
-            this.openFileDialog1.Filter = "audit files (*.audit)|*.audit";
-
-            DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
-            if (result == DialogResult.OK) 
-            {
-                string file = openFileDialog1.FileName;
-                try
-                {
-                    string text = File.ReadAllText(file);
-                    size = text.Length;
-                }
-                catch (IOException)
-                {
-                }
-                listBox1.Items.Add(file);
-            }
-                       
-        }
 
         private void BrowseMultipleButton_Click(object sender, EventArgs e)
         {
@@ -333,7 +311,7 @@ namespace SecurityBenchmarkingTool
 
             }
             
-            using (TextWriter tw = new StreamWriter(@"C:\Users\User\Desktop\XML.xml"))
+            using (TextWriter tw = new StreamWriter(@"D:\University\Sem V\CyberSecurity\XML.xml"))
             {
                 foreach (String line in list)
                     tw.WriteLine(line);
@@ -343,7 +321,7 @@ namespace SecurityBenchmarkingTool
             XmlNodeList xmlnode;
             int i = 0;
             string str = null;
-            FileStream fs = new FileStream(@"D:\University\Sem V\CyberSecurity\XML.xml", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(@"D:\University\Sem V\CyberSecurity\2.txt", FileMode.Open, FileAccess.Read);
             xmldoc.Load(fs);
             xmlnode = xmldoc.GetElementsByTagName("custom_item");
             for (i = 0; i <= xmlnode.Count - 1; i++)
@@ -352,8 +330,10 @@ namespace SecurityBenchmarkingTool
                 str = xmlnode[i].ChildNodes.Item(0).InnerText.Trim() + "  " + xmlnode[i].ChildNodes.Item(1).InnerText.Trim() + "  " + xmlnode[i].ChildNodes.Item(2).InnerText.Trim();
                 
             }
-            MessageBox.Show("File parsing completed successfully");
-
+            
+            SaveButton_Click(sender, e);
+            BindButton_Click(sender, e);
+            
 
         }
         public string conString = "Data Source=WIN-AGBLDGI4OBP;Initial Catalog=SecurityBenchmarkingTool;Integrated Security=True";
@@ -402,7 +382,7 @@ namespace SecurityBenchmarkingTool
             {
                 conn.ConnectionString = "Data Source=WIN-AGBLDGI4OBP;Initial Catalog=SecurityBenchmarkingTool;Integrated Security=True";
                 conn.Open();
-                using (XmlTextReader reader = new XmlTextReader(@"D:\University\Sem V\CyberSecurity\XML.xml"))
+                using (XmlTextReader reader = new XmlTextReader(@"D:\University\Sem V\CyberSecurity\2.txt"))
                 {
                     while (reader.Read())
                     {
@@ -535,7 +515,7 @@ namespace SecurityBenchmarkingTool
                     }
                 }
             }
-              MessageBox.Show("Data was transfered to database successfully");
+              
         }
        
 
@@ -612,7 +592,7 @@ namespace SecurityBenchmarkingTool
         
         private void CreateNewAuditButton_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show("1");
+            
             for (int i = 0; i < PoliciesListView.Items.Count; i++)
             {
                 
@@ -625,12 +605,13 @@ namespace SecurityBenchmarkingTool
                     
                 }
             }
-            MessageBox.Show("Checked options successfully stored");
+           
 
         }
 
         private void SaveAudit_Click(object sender, EventArgs e)
         {
+            CreateNewAuditButton_Click(sender, e);
             try
             {
                 SqlConnection con = new SqlConnection(@"Data Source=WIN-AGBLDGI4OBP;Initial Catalog=SecurityBenchmarkingTool;Integrated Security=True;Connection Timeout=500");
@@ -644,7 +625,7 @@ namespace SecurityBenchmarkingTool
                     DataTable dt = new DataTable("Custom_Item");
                     sda.Fill(dt);
 
-                    dt.WriteXml(@"C:\Users\User\Desktop\XML2.xml");
+                    dt.WriteXml(@"D:\University\Sem V\CyberSecurity\XML2.xml");
                     con.Close();
                     
                 }
@@ -655,7 +636,7 @@ namespace SecurityBenchmarkingTool
                 throw;
             }
             var list = new List<String>();
-            var fileStream = new FileStream(@"C:\Users\User\Desktop\XML2.xml", FileMode.Open, FileAccess.Read);
+            var fileStream = new FileStream(@"D:\University\Sem V\CyberSecurity\XML2.xml", FileMode.Open, FileAccess.Read);
             using(var streamReader = new StreamReader(fileStream, Encoding.UTF8))
             {
                 string line;
@@ -762,7 +743,7 @@ namespace SecurityBenchmarkingTool
                 }
 
             }
-            using (TextWriter tw = new StreamWriter(@"C:\Users\User\Desktop\New_Audit.audit")) 
+            using (TextWriter tw = new StreamWriter(@"D:\University\Sem V\CyberSecurity\New_Audit.audit")) 
             {
                 tw.WriteLine("<check_type:Windows version:2>");
                 tw.WriteLine("<group_policy:CIS Microsoft Windows 10 Enterprise Release 1903 Benchmark>");
@@ -775,6 +756,146 @@ namespace SecurityBenchmarkingTool
                 tw.WriteLine("</group_policy>");
 
                 MessageBox.Show("New audit file created successfuly");
+                PoliciesListView.Items.Clear();
+                BindButton_Click(sender, e);
+                
+               
+            }
+        }
+
+        private void ScanButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C cd ../../Users/User/Desktop & secedit.exe /export /cfg extracted_pol.inf";
+            startInfo.Verb = "runas";
+            process.StartInfo = startInfo;
+            process.Start();
+            Console.WriteLine("file created");
+
+            string path = "C:\\Users\\User\\Desktop\\extracted_pol.inf";
+
+            MyScanner.Read(path);
+
+            foreach (ListViewItem line in PoliciesListView.Items)
+            {
+                line.BackColor = Color.LightGray;
+
+                if (line.Text.Contains("Minimum password age"))
+                {
+                    string testResult = MyScanner.min_pass_age_result;
+                    
+                    if (testResult == "p")
+                    {
+                         line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+
+                if (line.Text.Contains("Maximum password age"))
+                {
+                    string testResult = MyScanner.max_pass_age_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+
+                if (line.Text.Contains("password history"))
+                {
+                    string testResult = MyScanner.pass_his_size_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+
+                if (line.Text.Contains("Minimum password length"))
+                {
+                    string testResult = MyScanner.min_pass_len_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+
+
+                if (line.Text.Contains("Password must meet complexity requirements"))
+                {
+                    string testResult = MyScanner.pass_complexity_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+
+                if (line.Text.Contains("account lockout counter"))
+                {
+                    string testResult = MyScanner.lockout_bad_count_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+
+                if (line.Text.Contains("Interactive logon Prompt user to change password before expiration"))
+                {
+                    string testResult = MyScanner.logon_to_change_pass_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+
+                if (line.Text.Contains("Ensure Accounts Guest account status is set to Disabled "))
+                {
+                    string testResult = MyScanner.enable_guest_account_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                
             }
         }
     }
