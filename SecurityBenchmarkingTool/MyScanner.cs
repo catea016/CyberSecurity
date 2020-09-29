@@ -25,13 +25,6 @@ namespace SecurityBenchmarkingTool
         
         private static int x;
 
-        public void scan()
-        {
-            string cmdText;
-            cmdText = "secedit.exe /export /cfg D:\\Users\\User\\University\\Sem V\\CyberSecurity\\extracted_policies.txt";
-            System.Diagnostics.Process.Start("CMD.exe", cmdText);
-        }
-
         internal static string[] Read(string path)
         {
             string line;
@@ -52,13 +45,13 @@ namespace SecurityBenchmarkingTool
                         if (int.TryParse(deviceName, out int x)) { }
                         //Console.WriteLine(x);
                         if (x >= 1)
-                            {
-                                min_pass_age_result = "p";
-                            }
-                            else
-                            {
-                                min_pass_age_result = "f";
-                            }
+                        {
+                             min_pass_age_result = "p";
+                        }
+                        else
+                        {
+                            min_pass_age_result = "f";
+                        }
                     } 
                     if (line.StartsWith("MaximumPasswordAge"))
                     {
@@ -81,7 +74,7 @@ namespace SecurityBenchmarkingTool
                         string[] fullName = line.Split('=');
                         deviceName = fullName[1];
                         if (int.TryParse(deviceName, out int x)) { }
-                        Console.WriteLine(x);
+                        //Console.WriteLine(x);
                         if (x >= 24)
                         {
                             pass_his_size_result = "p";
@@ -97,7 +90,7 @@ namespace SecurityBenchmarkingTool
                         string[] fullName = line.Split('=');
                         deviceName = fullName[1];
                         if (int.TryParse(deviceName, out int x)) { }
-                        Console.WriteLine(x);
+                        //Console.WriteLine(x);
                         if (x >= 14)
                         {
                             min_pass_len_result = "p";
@@ -113,7 +106,7 @@ namespace SecurityBenchmarkingTool
                         string[] fullName = line.Split('=');
                         deviceName = fullName[1];
                         if (int.TryParse(deviceName, out int x)) { }
-                        Console.WriteLine(x);
+                        //Console.WriteLine(x);
                         if (x == 1)
                         {
                             pass_complexity_result = "p";
@@ -129,7 +122,7 @@ namespace SecurityBenchmarkingTool
                         string[] fullName = line.Split('=');
                         deviceName = fullName[1];
                         if (int.TryParse(deviceName, out int x)) { }
-                        Console.WriteLine(x);
+                        //Console.WriteLine(x);
                         if (x >= 15)
                         {
                             lockout_bad_count_result = "p";
@@ -145,7 +138,7 @@ namespace SecurityBenchmarkingTool
                         string[] fullName = line.Split('=');
                         deviceName = fullName[1];
                         if (int.TryParse(deviceName, out int x)) { }
-                        Console.WriteLine(x);
+                        //Console.WriteLine(x);
                         if (x >= 5 && x <= 14)
                         {
                             logon_to_change_pass_result = "p";
@@ -160,7 +153,7 @@ namespace SecurityBenchmarkingTool
                         string[] fullName = line.Split('=');
                         deviceName = fullName[1];
                         if (int.TryParse(deviceName, out int x)) { }
-                        Console.WriteLine(x);
+                        //Console.WriteLine(x);
                         if (x == 0)
                         {
                             enable_guest_account_result = "p";
@@ -173,9 +166,7 @@ namespace SecurityBenchmarkingTool
 
                 }
             }
-            Console.WriteLine(min_pass_age_result);
-            Console.WriteLine(max_pass_age_result);
-            Console.WriteLine(pass_his_size_result);
+           
             string[] result = new string[10];
             
             result[0] = min_pass_age_result;

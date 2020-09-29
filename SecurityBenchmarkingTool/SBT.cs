@@ -762,23 +762,57 @@ namespace SecurityBenchmarkingTool
                
             }
         }
-
+        
         private void ScanButton_Click(object sender, EventArgs e)
         {
+            string path = "D:\\University\\Sem V\\CyberSecurity\\extracted_pol.inf";
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = "/C cd ../../Users/User/Desktop & secedit.exe /export /cfg extracted_pol.inf";
+            startInfo.Arguments = "/C cd D:\\University\\Sem V\\CyberSecurity & secedit.exe /export /cfg D:\\University\\Sem V\\CyberSecurity\\extracted_pol.inf";
             startInfo.Verb = "runas";
             process.StartInfo = startInfo;
             process.Start();
-            Console.WriteLine("file created");
-
-            string path = "C:\\Users\\User\\Desktop\\extracted_pol.inf";
+            Console.WriteLine("file created");  
 
             MyScanner.Read(path);
+            colorBackground();
+        }
 
+        private void FixButton_Click(object sender, EventArgs e)
+        {
+            string path = "D:\\University\\Sem V\\CyberSecurity\\extracted_pol.inf";
+            PolicySettings.changeSettings(path);
+            importINF();
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C secedit /configure /db file2.sdb";
+            startInfo.Verb = "runas";
+            process.StartInfo = startInfo;
+            process.Start();
+            Console.WriteLine("commands are executed");
+            string path2 = "D:\\University\\Sem V\\CyberSecurity\\extracted_pol2.inf";
+            MyScanner.Read(path2);
+
+            colorBackground();
+        }
+         public void importINF()
+         {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C secedit /import /cfg D:\\University\\Sem V\\CyberSecurity\\extracted_pol2.inf /db file2.sdb";
+            startInfo.Verb = "runas";
+            process.StartInfo = startInfo;
+            process.Start();
+         }
+        
+        public void colorBackground()
+        {
             foreach (ListViewItem line in PoliciesListView.Items)
             {
                 line.BackColor = Color.LightGray;
@@ -786,10 +820,10 @@ namespace SecurityBenchmarkingTool
                 if (line.Text.Contains("Minimum password age"))
                 {
                     string testResult = MyScanner.min_pass_age_result;
-                    
+
                     if (testResult == "p")
                     {
-                         line.BackColor = Color.Green;
+                        line.BackColor = Color.Green;
                     }
                     if (testResult == "f")
                     {
@@ -895,8 +929,23 @@ namespace SecurityBenchmarkingTool
                         line.BackColor = Color.Red;
                     }
                 }
-                
+
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C secedit /import /cfg D:\\University\\Sem V\\CyberSecurity\\rolback.inf /db file2.sdb & secedit /configure /db file2.sdb";
+            startInfo.Verb = "runas";
+            process.StartInfo = startInfo;
+            process.Start();
+            string path = "D:\\University\\Sem V\\CyberSecurity\\rolback.inf";
+            MyScanner.Read(path);
+            colorBackground();
         }
     }
 }

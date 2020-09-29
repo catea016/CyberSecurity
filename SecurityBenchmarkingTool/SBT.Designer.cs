@@ -42,6 +42,8 @@
             this.Policies = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SelectDeselectAll = new System.Windows.Forms.RadioButton();
             this.ScanButton = new System.Windows.Forms.Button();
+            this.FixButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -115,7 +117,7 @@
             this.SaveAudit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.SaveAudit.Location = new System.Drawing.Point(963, 218);
             this.SaveAudit.Name = "SaveAudit";
-            this.SaveAudit.Size = new System.Drawing.Size(162, 64);
+            this.SaveAudit.Size = new System.Drawing.Size(167, 64);
             this.SaveAudit.TabIndex = 10;
             this.SaveAudit.Text = "Save new audit";
             this.SaveAudit.UseVisualStyleBackColor = false;
@@ -188,15 +190,41 @@
             // ScanButton
             // 
             this.ScanButton.BackColor = System.Drawing.Color.DarkBlue;
-            this.ScanButton.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ScanButton.Font = new System.Drawing.Font("MS Reference Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ScanButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ScanButton.Location = new System.Drawing.Point(963, 297);
+            this.ScanButton.Location = new System.Drawing.Point(963, 288);
             this.ScanButton.Name = "ScanButton";
-            this.ScanButton.Size = new System.Drawing.Size(162, 47);
+            this.ScanButton.Size = new System.Drawing.Size(167, 64);
             this.ScanButton.TabIndex = 18;
             this.ScanButton.Text = "Scan";
             this.ScanButton.UseVisualStyleBackColor = false;
             this.ScanButton.Click += new System.EventHandler(this.ScanButton_Click);
+            // 
+            // FixButton
+            // 
+            this.FixButton.BackColor = System.Drawing.Color.DarkBlue;
+            this.FixButton.Font = new System.Drawing.Font("MS Reference Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FixButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.FixButton.Location = new System.Drawing.Point(963, 355);
+            this.FixButton.Name = "FixButton";
+            this.FixButton.Size = new System.Drawing.Size(167, 64);
+            this.FixButton.TabIndex = 19;
+            this.FixButton.Text = "Fix failed controls";
+            this.FixButton.UseVisualStyleBackColor = false;
+            this.FixButton.Click += new System.EventHandler(this.FixButton_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.DarkBlue;
+            this.button1.Font = new System.Drawing.Font("MS Reference Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.button1.Location = new System.Drawing.Point(963, 425);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(167, 64);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "Rollback";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // SBT
             // 
@@ -204,6 +232,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClientSize = new System.Drawing.Size(1472, 741);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.FixButton);
             this.Controls.Add(this.ScanButton);
             this.Controls.Add(this.SelectDeselectAll);
             this.Controls.Add(this.PoliciesListView);
@@ -239,6 +269,8 @@
         private System.Windows.Forms.ColumnHeader Policies;
         private System.Windows.Forms.RadioButton SelectDeselectAll;
         private System.Windows.Forms.Button ScanButton;
+        private System.Windows.Forms.Button FixButton;
+        private System.Windows.Forms.Button button1;
     }
 }
 

@@ -47,7 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Scanner.cs" />
+    <Compile Include="PolicySettings.cs" />
+    <Compile Include="MyScanner.cs" />
     <Compile Include="SBT.cs">
       <SubType>Form</SubType>
     </Compile>
