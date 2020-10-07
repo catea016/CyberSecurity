@@ -888,20 +888,6 @@ namespace SecurityBenchmarkingTool
                     }
                 }
 
-                if (line.Text.Contains("account lockout counter"))
-                {
-                    string testResult = MyScanner.lockout_bad_count_result;
-
-                    if (testResult == "p")
-                    {
-                        line.BackColor = Color.Green;
-                    }
-                    if (testResult == "f")
-                    {
-                        line.BackColor = Color.Red;
-                    }
-                }
-
                 if (line.Text.Contains("Interactive logon Prompt user to change password before expiration"))
                 {
                     string testResult = MyScanner.logon_to_change_pass_result;
@@ -919,6 +905,175 @@ namespace SecurityBenchmarkingTool
                 if (line.Text.Contains("Ensure Accounts Guest account status is set to Disabled "))
                 {
                     string testResult = MyScanner.enable_guest_account_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                if (line.Text.Contains("Ensure Reset account lockout counter after is set to 15 or more minute(s)"))
+                {
+                    string testResult = MyScanner.reset_lockout_count_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                if (line.Text.Contains("Network security Force logoff when logon hours expire"))
+                {
+                    string testResult = MyScanner.force_logoff_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                if (line.Text.Contains("Accounts Administrator account status"))
+                {
+                    string testResult = MyScanner.admin_account_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                if (line.Text.Contains("Ensure Audit Other System Events"))
+                {
+                    string testResult = MyScanner.audit_system_events_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                if (line.Text.Contains("Ensure Audit Other Logon/Logoff Events"))
+                {
+                    string testResult = MyScanner.audit_logon_events_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                if (line.Text.Contains("Ensure Audit Other Object Access Events is set to Success and Failure"))
+                {
+                    string testResult = MyScanner.audit_object_access_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                if (line.Text.Contains("Ensure Audit Other Policy Change Events"))
+                {
+                    string testResult = MyScanner.audit_policy_change_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                if (line.Text.Contains("Ensure Audit Logon"))
+                {
+                    string testResult = MyScanner.audit_account_logon_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                if (line.Text.Contains("Ensure Audit Sensitive Privilege Use"))
+                {
+                    string testResult = MyScanner.audit_privilege_use_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                if (line.Text.Contains("Audit User Account Management"))
+                {
+                    string testResult = MyScanner.audit_account_manage_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                if (line.Text.Contains("Audit Process Creation"))
+                {
+                    string testResult = MyScanner.audit_process_track_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                if (line.Text.Contains("Account lockout duration is set to 15 or more minute(s)"))
+                {
+                    string testResult = MyScanner.lockout_duration_result;
+
+                    if (testResult == "p")
+                    {
+                        line.BackColor = Color.Green;
+                    }
+                    if (testResult == "f")
+                    {
+                        line.BackColor = Color.Red;
+                    }
+                }
+                if (line.Text.Contains("Network access Allow anonymous SID/Name translation"))
+                {
+                    string testResult = MyScanner.name_lookup_result;
 
                     if (testResult == "p")
                     {

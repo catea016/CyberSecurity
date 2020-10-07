@@ -54,9 +54,52 @@ namespace SecurityBenchmarkingTool
                 {
                     list[m] = list[m].Replace("0", "16");
                 }
+                if (list[m].StartsWith("EnableAdminAccount"))
+                {
+                    list[m] = list[m].Replace("0", "1");
+                }
+                if (list[m].StartsWith("ForceLogoffWhenHourExpire"))
+                {
+                    list[m] = list[m].Replace("0", "1");
+                }
+                if (list[m].StartsWith("AuditSystemEvents"))
+                {
+                    list[m] = list[m].Replace("0", "1");
+                }
+                if (list[m].StartsWith("AuditLogonEvents"))
+                {
+                    list[m] = list[m].Replace("0", "1");
+                }
+                if (list[m].StartsWith("AuditObjectAccess"))
+                {
+                    list[m] = list[m].Replace("0", "1");
+                }
+                if (list[m].StartsWith("AuditPolicyChange"))
+                {
+                    list[m] = list[m].Replace("0", "1");
+                }
+                if (list[m].StartsWith("AuditAccountLogon"))
+                {
+                    list[m] = list[m].Replace("0", "1");
+                }
+                if (list[m].StartsWith("AuditPrivilegeUse"))
+                {
+                    list[m] = list[m].Replace("0", "1");
+                }
+                if (list[m].StartsWith("AuditAccountManage"))
+                {
+                    list[m] = list[m].Replace("0", "1");
+                }
+                if (list[m].StartsWith("AuditProcessTracking"))
+                {
+                    list[m] = list[m].Replace("0", "1");
+                }
+                if (list[m].StartsWith("LSAAnonymousNameLookup"))
+                {
+                    list[m] = list[m].Replace("0", "1");
+                }
 
-
-             }
+            }
             using (TextWriter tw = new StreamWriter(@"D:\\University\\Sem V\\CyberSecurity\\extracted_pol2.inf"))
             {
                 foreach (String line in list)
